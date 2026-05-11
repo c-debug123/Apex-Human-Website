@@ -1,19 +1,31 @@
-import Nav from './components/Nav'
-import Hero from './components/Hero'
-import Footer from './components/Footer'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
+import Landing from './pages/Landing'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
+import ForgotPassword from './pages/ForgotPassword'
+import Dashboard from './pages/Dashboard'
 
 export default function App() {
   return (
-    <div style={{
-      background: '#0A0A0F',
-      height: '100dvh',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-    }}>
-      <Nav />
-      <Hero />
-      <Footer />
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
